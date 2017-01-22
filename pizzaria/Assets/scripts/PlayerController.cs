@@ -10,6 +10,10 @@ public class PlayerController : MonoBehaviour {
     public float maxSpeed = 20f;
     public float jumpStrength = 500f;
     private bool OnGround = false;
+    private GameObject collisionObject;
+    private Object inventory;
+    private float rollTimer = 0f;
+    public float timeToRoll = 3.0f;
 
     void Start()
     {
@@ -93,6 +97,25 @@ public class PlayerController : MonoBehaviour {
         {
             rb.AddForce(new Vector3(0, jumpStrength, 0));
         }
+    }
+    
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.name == "rollerStation" && inventory.tag == "rollableIngredient" )
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                rollTimer += Time.deltaTime;
+                if (timeToRoll == rollTimer)
+                {
+                  
+                }
+            }
+            //transform the rollable into its second form. could make changes based on input.
+            //ex: push X for 1 sec, make thick crust, but press for 3 sec to make thin.
+        }
+        //insert other stations here, seems like this would be the solution.
     }
 }
 
