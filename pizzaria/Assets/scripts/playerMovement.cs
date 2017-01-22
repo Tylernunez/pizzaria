@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class playerMovement : MonoBehaviour {
 
     private Rigidbody rb;
     private float distToGround;
@@ -10,10 +10,6 @@ public class PlayerController : MonoBehaviour {
     public float maxSpeed = 20f;
     public float jumpStrength = 500f;
     private bool OnGround = false;
-    private GameObject collisionObject;
-    private Object inventory;
-    private float rollTimer = 0f;
-    public float timeToRoll = 3.0f;
 
     void Start()
     {
@@ -29,7 +25,7 @@ public class PlayerController : MonoBehaviour {
         //move
         rb.AddRelativeForce(velocityAxis.normalized * acceleration);
 
-      
+
         OnGround = IsGrounded();
         //float verticalMovement = Input.GetAxis("Vertical") * speed;
         //float horizontalMovement = Input.GetAxis("Horizontal") * speed;
@@ -47,7 +43,7 @@ public class PlayerController : MonoBehaviour {
         {
             Jump();
         }
-        if(velocityAxis.magnitude !=0)
+        if (velocityAxis.magnitude != 0)
         {
             if (IsGrounded())
             {
@@ -55,14 +51,14 @@ public class PlayerController : MonoBehaviour {
             }
         }
         if (!IsGrounded())
-        { 
-                rb.drag = 1; // reduce velocity faster with myDrag rigidbody.angularVelocity = myDrag;
+        {
+            rb.drag = 1; // reduce velocity faster with myDrag rigidbody.angularVelocity = myDrag;
         }
 
         LimitVelocity();
-           
+
     }
-    
+
     private void LimitVelocity()
     {
         Vector2 xzVel = new Vector2(GetComponent<Rigidbody>().velocity.x, GetComponent<Rigidbody>().velocity.z);
@@ -73,7 +69,8 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    bool IsGrounded() {
+    public bool IsGrounded()
+    {
         // We can use a layer mask to tell the Physics Raycast which layers we are trying to hit.
         // This will allow us to restrict which objects this applies to.
         int layerMask = 1 << LayerMask.NameToLayer("Collision");
@@ -91,31 +88,11 @@ public class PlayerController : MonoBehaviour {
         return false;
     }
 
-    private void Jump()
+    public void Jump()
     {
         if (OnGround)
         {
             rb.AddForce(new Vector3(0, jumpStrength, 0));
         }
     }
-    
-
-    void OnCollisionEnter(Collision col)
-    {
-        if (col.gameObject.name == "rollerStation" && inventory.tag == "rollableIngredient" )
-        {
-            if (Input.GetKey(KeyCode.E))
-            {
-                rollTimer += Time.deltaTime;
-                if (timeToRoll == rollTimer)
-                {
-                  
-                }
-            }
-            //transform the rollable into its second form. could make changes based on input.
-            //ex: push X for 1 sec, make thick crust, but press for 3 sec to make thin.
-        }
-        //insert other stations here, seems like this would be the solution.
-    }
 }
-
