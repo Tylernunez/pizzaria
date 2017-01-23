@@ -28,10 +28,10 @@ public class rollerController : MonoBehaviour {
             Debug.Log(rollTimer);
             if (timeToRoll < rollTimer)
             {
-                Transform invPos = rollerInventory.transform;
-                Destroy(rollerInventory);
                 Debug.Log("Rolled!");
-                rollerInventory = Instantiate(handTossed,invPos);
+                GameObject newTossed = Instantiate(handTossed,rollerInventory.transform.position,rollerInventory.transform.rotation);
+                Destroy(rollerInventory);
+                rollerInventory = newTossed;
                 canInteract = false;
             }
         }
