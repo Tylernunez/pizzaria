@@ -52,7 +52,12 @@ public class playerInventory : MonoBehaviour {
                 Debug.Log("Pickup!");
                 inventory = closestObject;
                 inventory.transform.parent = this.transform;
+                inventory.transform.position = this.transform.position + this.transform.TransformDirection(new Vector3(0, 0, 1));
                 isHolding = true;
+                //Rigidbody pickup = inventory.GetComponent<Rigidbody>();
+                //pickup.freezeRotation = true;
+                RigidbodyConstraints pickup = inventory.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+
             }
         }
         
@@ -64,8 +69,10 @@ public class playerInventory : MonoBehaviour {
         {
             Debug.Log("Drop!");
             inventory.transform.parent = null;
+            RigidbodyConstraints pickup = inventory.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
             inventory = null;
             isHolding = false;
+            
         }
     }
 }
