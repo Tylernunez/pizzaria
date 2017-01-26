@@ -5,11 +5,10 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
     public float speed = 6.0F;
-    public float turnSpeed = 100.0f;
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.None;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     void Update()
     {
@@ -22,12 +21,7 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetKeyDown("escape"))
             Cursor.lockState = CursorLockMode.None;
-
-        if (Input.GetKey(KeyCode.E))
-            transform.Rotate(Vector3.up * turnSpeed * Time.deltaTime);
-
-        if (Input.GetKey(KeyCode.Q))
-            transform.Rotate(-Vector3.up * turnSpeed * Time.deltaTime);
+            
     }
 }
 
