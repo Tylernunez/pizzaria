@@ -5,6 +5,7 @@ using UnityEngine;
 public class playerInventory : MonoBehaviour {
 
     public GameObject inventory;
+    public Transform inventoryParent;
     public bool isHolding = false;
     public float grabRange = 5.0f;
 
@@ -51,7 +52,9 @@ public class playerInventory : MonoBehaviour {
             {
                 Debug.Log("Pickup!");
                 inventory = closestObject;
+                inventoryParent = inventory.transform.parent;
                 inventory.transform.parent = this.transform;
+                //Places the item grabbed in front of player.
                 inventory.transform.position = this.transform.position + this.transform.TransformDirection(new Vector3(0, 0, 1));
                 isHolding = true;
                 //Rigidbody pickup = inventory.GetComponent<Rigidbody>();
@@ -68,7 +71,7 @@ public class playerInventory : MonoBehaviour {
         if (Input.GetKey(KeyCode.Q))
         {
             Debug.Log("Drop!");
-            inventory.transform.parent = null;
+            inventory.transform.parent = inventoryParent;
             RigidbodyConstraints pickup = inventory.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
             inventory = null;
             isHolding = false;
