@@ -12,17 +12,20 @@ public class rollerController : MonoBehaviour {
     public GameObject thick;
     public GameObject thin;
     public GameObject handTossed;
+    public Collision other;
 
     private void Update()
     {
         if (canInteract)
         {
             roll();
+            
         }
+        pickup();
     }
     public void roll()
     {
-        if(Input.GetKey(KeyCode.E))
+        if(Input.GetKey(KeyCode.R))
         {
             rollTimer += Time.deltaTime;
             Debug.Log(rollTimer);
@@ -36,8 +39,25 @@ public class rollerController : MonoBehaviour {
             }
         }
     }
+    public void pickup()
+    {
+        if(rollerInventory != null)
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                if(other.gameObject.tag == "Player")
+                {
+                    other.gameObject.GetComponent<playerInventory>().pickup();
+                    rollerInventory = null;
+                }
+                
+            }
+        }
+        
+    }
     public void OnCollisionEnter(Collision col)
     {
+        other = col;
         Debug.Log("Colliding!");
         if (rollerInventory == null)
         {
